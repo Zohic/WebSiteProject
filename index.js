@@ -3,59 +3,38 @@ require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-console.log(process);
-console.log("envi = " + process.env.toString());
+
 const PORT = process.env.PORT || 3000;
-
 const server = http.createServer();
-
-
-
-var mainPageHtml = '', mainPageCss = '', mainPageJs = '';
-fs.readFile("./public/mainPage.html",'utf8', (err, cont) => {mainPageHtml = cont});
-fs.readFile("./public/mainPage.css",'utf8', (err, cont) => {mainPageCss = cont});
-fs.readFile("./public/mainPage.js",'utf8', (err, cont) => {mainPageJs = cont});
-
-var dir = path.join(__dirname, 'public');
-
-var mime = {
-    html: 'text/html',
-    txt: 'text/plain',
-    css: 'text/css',
-    gif: 'image/gif',
-    jpg: 'image/jpeg',
-    png: 'image/png',
-    svg: 'image/svg+xml',
-    js: 'application/javascript'
-};
-
 
 function OnServerCreate()
 {
 	console.log("server created: listening on "+ PORT);
 }
 
-function ResponseRequest(req, res)
+const mimeList = {
+		    html: 'text/html',
+		    txt: 'text/plain',
+		    css: 'text/css',
+		    gif: 'image/gif',
+		    jpg: 'image/jpeg',
+		    png: 'image/png',
+		    svg: 'image/svg+xml',
+		    js: 'application/javascript'
+};
+const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
+
+
+
+
+server.on('request', Response);
+server.listen(PORT, OnServerCreate);
+
+
+function FileResponse(res, file)
 {
-    
-	var reqpath = req.url.toString().split('?')[0];
-    if (req.method !== 'GET') {
-        res.statusCode = 501;
-        res.setHeader('Content-Type', 'text/plain');
-        return res.end('Method not implemented');
-    }
-
-    var file = path.join(dir, reqpath.replace(/\/$/, '/index.html'));
-
-    if (file.indexOf(dir + path.sep) !== 0) {
-        res.statusCode = 403;
-        res.setHeader('Content-Type', 'text/plain');
-        return res.end('Forbidden');
-    }
-
-    var type = mime[path.extname(file).slice(1)] || 'text/plain';
-
-    var s = fs.createReadStream(file);
+	var type = mimeList[path.extname(file).slice(1)] || 'text/plain';
+	var s = fs.createReadStream(file);
     s.on('open', function () {
         res.setHeader('Content-Type', type);
         s.pipe(res);
@@ -67,6 +46,34 @@ function ResponseRequest(req, res)
     });
 }
 
-server.on('request', ResponseRequest);
-server.listen(PORT, OnServerCreate);
+function GetResponse(req, res)
+{
+	var reqpath = req.url.toString().split('?')[0];
+	var file = path.join(pubDir, reqpath.replace(/\/$/, '/index.html'));
+
+    if (file.indexOf(pubDir + path.sep) !== 0) {
+        res.statusCode = 403;
+        res.setHeader('Content-Type', 'text/plain');
+        return res.end('Forbidden');
+    }
+    
+    FileResponse(res, file);
+}
+
+function Response(req, res)
+{
+	
+	
+
+    if (req.method == 'GET') {
+        GetResponse(req, res);
+    }else
+    {
+    	res.statusCode = 501;
+        res.setHeader('Content-Type', 'text/plain');
+        return res.end('Method not implemented');
+    }
+    
+    
+}
 
