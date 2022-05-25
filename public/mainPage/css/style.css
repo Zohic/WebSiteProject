@@ -438,12 +438,12 @@ a:focus {
 .service_section .service_container {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: normal;
 }
 
 .service_section .service_container .box {
   -ms-flex-preferred-size: 32%;
-      flex-basis: 32%;
+  flex-basis: 32%;
   margin: 1%;
   background-color: #ffffff;
   padding: 15px;
@@ -457,7 +457,7 @@ a:focus {
 }
 
 .service_section .service_container .box .detail-box {
-  margin-top: 25px;
+  margin-top: 12px;
 }
 
 .service_section .service_container .box .detail-box h6 {
@@ -477,38 +477,53 @@ a:focus {
   border: 1px solid transparent;
   margin-top: 10px;
 }
-
 .service_section .service_container .box .detail-box a:hover {
-  background-color: transparent;
-  border-color: #fc0909;
-  color: #fc0909;
+    background-color: transparent;
+    border-color: #fc0909;
+    color: #fc0909;
 }
 
-.service_section .service_container .box.b1 {
-  -webkit-transform: translateY(20%);
-          transform: translateY(20%);
+.service_select_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+    padding-bottom: 2%;
+    font-size: 18px;
+    font-weight: bold;
+    color:white;
 }
 
-.service_section .service_container .box.b2 {
-  -webkit-transform: translateY(5%);
-          transform: translateY(5%);
+.service_button {
+    display: normal;
+    padding: 5px 35px;
+    background-color: #fc0909;
+    color: #ffffff;
+    
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    margin-top: 10px;
 }
 
-.service_section .service_container .box.b3 {
-  -webkit-transform: translateY(-20%);
-          transform: translateY(-20%);
-}
+    .service_button:hover {
+        background-color: #ffffff;
+        border-color: #fc0909;
+        color: #fc0909;
+        font-size: 24px;
+    }
+
+
 
 .product_section .product_container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding-top: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-top: 40px;
 }
 
 .product_section .product_container .box {

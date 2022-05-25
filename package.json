@@ -12,6 +12,9 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "http": "^0.0.1-security",
-    "path": "^0.12.7"
+    "nedb": "^1.8.0",
+    "path": "^0.12.7",
+    "preprocess": "^3.2.0",
+    "sqlite3": "^5.0.8"
   }
 }

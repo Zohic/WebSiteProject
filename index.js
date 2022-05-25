@@ -4,6 +4,11 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('data.sqlite3');
+
+const pp = require('preprocess');
+
 const PORT = process.env.PORT || 3000;
 const server = http.createServer();
 
@@ -22,6 +27,7 @@ const mimeList = {
 		    svg: 'image/svg+xml',
 		    js: 'application/javascript'
 };
+
 const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
 
 
@@ -33,17 +39,43 @@ server.listen(PORT, OnServerCreate);
 
 function FileResponse(res, file)
 {
-	var type = mimeList[path.extname(file).slice(1)] || 'text/plain';
-	var s = fs.createReadStream(file);
-    s.on('open', function () {
-        res.setHeader('Content-Type', type);
-        s.pipe(res);
-    });
-    s.on('error', function () {
-        res.setHeader('Content-Type', 'text/plain');
-        res.statusCode = 404;
-        res.end('Not found');
-    });
+    var type = mimeList[path.extname(file).slice(1)] || 'text/plain';
+    var content = undefined;
+
+    if (type == 'text/html') {
+        try {
+            
+            content = fs.readFileSync(file, 'utf8');
+            res.setHeader('Content-Type', type);
+            res.end(pp.preprocess(content, { PLACE: 'samara ', PUBLIC_DIR: process.env.PUBLIC_DIR }));
+
+        } catch (err) {
+            console.log(err.message);
+            res.setHeader('Content-Type', 'text/plain');
+            res.statusCode = 404;
+            res.end('Not found');
+        }
+    } else {
+        var s = fs.createReadStream(file);
+
+        s.on('open', function () {
+
+            res.setHeader('Content-Type', type);
+            s.pipe(res);
+        });
+
+        s.on('error', function () {
+            res.setHeader('Content-Type', 'text/plain');
+            res.statusCode = 404;
+            res.end('Not found');
+        });
+    }
+
+    
+
+    
+
+    
 }
 
 function GetResponse(req, res)
@@ -62,8 +94,6 @@ function GetResponse(req, res)
 
 function Response(req, res)
 {
-	
-	
 
     if (req.method == 'GET') {
         GetResponse(req, res);
@@ -73,7 +103,6 @@ function Response(req, res)
         res.setHeader('Content-Type', 'text/plain');
         return res.end('Method not implemented');
     }
-    
-    
+ 
 }
 
