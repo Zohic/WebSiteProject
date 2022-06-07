@@ -29,186 +29,89 @@
 <body class="sub_page">
     <div class="hero_area">
         <!-- header section strats -->
-        <!--@include-static public/mainPage/header.html -->
+        <div id="headerImport"></div>
+        <%- include('header.html') -%>
         <!-- end header section -->
     </div>
 
-  <!-- service section -->
-
-  <section class="service_section layout_padding-top">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Our services
-        </h2>
-      </div>
-      <div class="service_container">
-        <div class="box b1">
-          <div class="img-box">
-            <img src="images/s-1.jpg" alt="" />
-          </div>
-          <div class="detail-box">
-            <h6>
-              Drill Service
-            </h6>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostr voluptate velit
-            </p>
-            <a href="">
-              See More
-            </a>
-          </div>
-        </div>
-        <div class="box b2">
-          <div class="img-box">
-            <img src="images/s-2.jpg" alt="" />
-          </div>
-          <div class="detail-box">
-            <h6>
-              Metal
-            </h6>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostr voluptate velit
-            </p>
-            <a href="">
-              See More
-            </a>
-          </div>
-        </div>
-        <div class="box b3">
-          <div class="img-box">
-            <img src="images/s-3.jpg" alt="" />
-          </div>
-          <div class="detail-box">
-            <h6>
-              Skru service
-            </h6>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostr voluptate velit
-            </p>
-            <a href="">
-              See More
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end service section -->
-
-  <!-- info section -->
-  <section class="info_section ">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info_logo">
-            <a class="navbar-brand" href="index.html">
-              <img src="images/info-logo.png" alt="" />
-              <span>
-                JMK
-              </span>
-            </a>
-            <p>
-              dolor sit amet, consectetur magna aliqua. Ut enim ad minim veniam, quisdotempor incididunt r
-            </p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info_links">
-            <h5>
-              Useful Link
-            </h5>
-            <ul>
-              <li>
-                <a href="">
-                  dolor sit amet, consectetur
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  magna aliqua. Ut enim ad
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  minim veniam,
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  quisdotempor incididunt r
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info_info">
-            <h5>
-              Contact Us
-            </h5>
-            <p>
-              dolor sit amet,<br>
-              consectetur<br>
-              magna aliqua.<br>
-              quisdotempor<br>
-              incididunt ut e
-            </p>
-          </div>
-        </div>
-
-
-        <div class="col-md-3">
-          <div class="info_form ">
-            <h5>
-              Newsletter
-            </h5>
-            <form action="">
-              <input type="email" placeholder="Enter your email">
-              <button>
-                Subscribe
-              </button>
-            </form>
-            <div class="social_box">
-              <a href="">
-                <img src="images/fb.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/twitter.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/linkedin.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/instagram.png" alt="">
-              </a>
+    <!-- service section -->
+    
+    <section class="service_section layout_padding-top">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Наши услуги
+                </h2>
             </div>
-          </div>
+
+            <div id="service_sections">
+
+                <%for (let i = 0; i < ServicesInfo.ServiceSection.length; i++) { %>
+                <div class="service_section">
+                    <%=ServicesInfo.ServiceSection[i]%>
+                    <div class="service_container">
+                        <% for (let j = 0; j < ServicesInfo.ServiceType.length; j++) { %>
+
+                        <% if (ServicesInfo.ServiceType[j].service_section_id == i) { %>
+
+                        <div class="box">
+                            <div class="img-box">
+                                <img src="images/services/<%=ServicesInfo.ServiceType[j].ascii_name %>.jpg" />
+                            </div>
+                            <div class="detail-box">
+                                <h6><%=ServicesInfo.ServiceType[j].service_name %></h6>
+                                <p><%=ServicesInfo.ServiceType[j].short_desc %></p>
+                                <a onclick="MakeOrder(<%=j%>)"><%=ServicesInfo.ServiceType[j].price %></a>
+                            </div>
+                        </div>
+                        <% } %>
+                        <% } %>
+                    </div>
+                    
+
+                    
+                </div>
+                <% } %>
+            </div>
+                
+            
         </div>
-      </div>
+
+
+        
+    </section>
+
+    <div class="form-popup" id="myForm">
+        <form id="orderForm" class="form-container">
+            <h1>Укажите данные заказчика</h1>
+
+            <label for="email"><b>Почта</b></label>
+            <input type="text" placeholder="Введите почту" name="email" required>
+
+            <label for="phone"><b>Номер телефона</b></label>
+            <input type="text" placeholder="Введите номер телефона" name="phone" required>
+
+            <label for="name"><b>Имя</b></label>
+            <input type="text" placeholder="Как к вам обращаться" name="name" required>
+
+
+            <button type="submit" class="btn">Отправить</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Отмена</button>
+        </form>
     </div>
-  </section>
 
-  <!-- end info_section -->
+    <script type="text/javascript" src="js/service.js">
 
-  <!-- footer section -->
-  <footer class="container-fluid footer_section">
-    <p>
-      &copy; 2021 All Rights Reserved. Design by
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </footer>
-  <!-- footer section -->
+        
+    </script>
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+    <!-- end service section -->
+    <!-- info section -->
+    <div id="footerImport"></div>
+    <!-- end info -->
+    <%- include('footer.html') -%>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
 </body>
 
 </html>

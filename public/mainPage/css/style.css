@@ -125,7 +125,7 @@ body {
 }
 
 .custom_nav-container.navbar-expand-lg {
-  z-index: 99999;
+  z-index: 50;
   padding: 0;
   -webkit-box-align: start;
       -ms-flex-align: start;
@@ -426,34 +426,44 @@ a:focus {
   padding: 25px;
 }
 
+
 .service_section {
-  background-color: #031652;
-  margin-bottom: 90px;
+    background-color: #031652;
+    margin-bottom: 90px;
+    align-content: center;
+
+    font-size: 22px;
+    color: #ffffff;
 }
 
 .service_section .heading_container {
   color: #ffffff;
 }
 
-.service_section .service_container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: normal;
-}
+    .service_section .service_container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: grid;
+        width: 70%;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 
 .service_section .service_container .box {
   -ms-flex-preferred-size: 32%;
   flex-basis: 32%;
   margin: 1%;
+  
   background-color: #ffffff;
   padding: 15px;
   text-align: center;
   -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
           box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+
 }
 
+
 .service_section .service_container .box .img-box img {
-  width: 100%;
+    width: 100%;
 }
 
 .service_section .service_container .box .detail-box {
@@ -465,6 +475,7 @@ a:focus {
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 20px;
+  color: #031652;
 }
 
 .service_section .service_container .box .detail-box a {
@@ -769,6 +780,9 @@ a:focus {
 }
 
 /* end contact section */
+
+
+
 .info_section {
   background-color: #010b2c;
   color: #ffffff;
@@ -800,7 +814,10 @@ a:focus {
 .info_section .info_logo .navbar-brand span {
   font-size: 24px;
   color: #ffffff;
+  
 }
+
+
 
 .info_section .info_links ul {
   padding: 0;
@@ -822,16 +839,17 @@ a:focus {
   border-radius: 30px;
 }
 
-.info_section .info_form form button {
-  padding: 8px 35px;
-  outline: none;
-  border: none;
-  color: #ffffff;
-  background: #f73131;
-  border-radius: 30px;
-  margin-top: 15px;
-  text-transform: uppercase;
-}
+    .info_section .info_form form button {
+        padding: 8px 35px;
+        outline: none;
+        border: none;
+        color: #ffffff;
+        background: #f73131;
+        border-radius: 30px;
+        margin-top: 15px;
+        text-transform: uppercase;
+        font-size: 16px;
+    }
 
 .info_section .info_form .social_box {
   margin-top: 35px;
@@ -867,6 +885,93 @@ a:focus {
 .footer_section a {
   color: rgba(254, 254, 255, 0.7);
 }
-
 /* end footer section*/
+
+/*form section*/
+.open-button {
+    font-family: "Poppins", sans-serif;
+    
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    z-index: 60;
+    width: 70%;
+    height: 80%;
+    bottom: 10%;
+    right: 15%;
+    border: 23px solid #f73131;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    margin: 0;
+}
+
+
+
+/* Add styles to the form container */
+.form-container {
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+    background-color: rgba(190, 230, 255, 1);
+    border: 12px solid #1d2943;
+}
+
+    /* Full-width input fields */
+    .form-container input[type=text], .form-container input[type=password] {
+        width: 100%;
+        color: wheat;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #1d2943;
+    }
+
+        /* When the inputs get focus, do something */
+        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+            background-color: #031652;
+            outline: none;
+        }
+
+        .form-container input[type=text]: {
+            background-color: rgba(0, 0, 0, 1);
+        }
+        /* Set a style for the submit/login button */
+        .form-container .btn {
+            background-color: rgba(255, 130, 20, 1);
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover, .open-button:hover {
+        opacity: 1;
+        transition: opacity 0.4s;
+        
+    }
+
+/*end form section*/
+
 /*# sourceMappingURL=style.css.map */

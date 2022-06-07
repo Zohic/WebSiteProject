@@ -1,108 +1,137 @@
-const http = require('http');
 require('dotenv').config();
-const express = require('express');
-const fs = require('fs');
 const path = require('path');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('data.sqlite3');
+const Server = require("./Server.js");
 
-const pp = require('preprocess');
+const reactModels = require("./reactModels.jsx");
 
 const PORT = process.env.PORT || 3000;
-const server = http.createServer();
+const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
+const database = require('./database');
 
-function OnServerCreate()
-{
-	console.log("server created: listening on "+ PORT);
-}
+const sendMail = require('./emailer');
+const { randomUUID } = require('crypto');
 
-const mimeList = {
-		    html: 'text/html',
-		    txt: 'text/plain',
-		    css: 'text/css',
-		    gif: 'image/gif',
-		    jpg: 'image/jpeg',
-		    png: 'image/png',
-		    svg: 'image/svg+xml',
-		    js: 'application/javascript'
+
+
+const baseUrl = "http://localhost:" + PORT;
+const server = new Server(baseUrl, pubDir);
+server.Listen(PORT);
+
+
+server.responses.get('GET').set('/',
+    function (req, res) {
+        res.writeHead(302, { 'Location': '/mainPage/index.html' });
+        res.end();
+    }
+);
+server.responses.get('GET').set('/mainPage',
+    function (req, res) {
+        res.writeHead(302, { 'Location': '/mainPage/index.html' });
+        res.end();
+    }
+);
+
+server.responses.get('GET').set('/add',
+    function (req, res) {
+        database.AddOrder(0, "zakhar", "233", "mail@mail");
+        res.end();
+    }
+);
+
+server.responses.get('GET').set('/confirm',
+    function (req, res) {
+        console.log("confirmed");
+        const url = new URL(path.join(baseUrl, req.url));
+ 
+        database.VerifyOrder(url.searchParams.get("id"));
+
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end("заказ номер " + url.searchParams.get("id")+" подтвержден, ожидайте звонка");
+    }
+);
+
+server.responses.get('GET').set('/discard',
+    function (req, res) {
+        console.log("discarded");
+        const url = new URL(path.join(baseUrl, req.url));
+
+        database.DisсardOrder(url.searchParams.get("id"));
+
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end("заказ отменён");
+    }
+);
+
+
+server.responses.get('GET').set('/get-services',
+    function (req, res) {
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end(JSON.stringify(database.ServicesInfo));
+    }
+);
+
+server.responses.get('POST').set('/submit-order',
+    function (req, res) {
+        let body = "";
+        req.on("data", function (chunk) { body += chunk; })
+        req.on("end", function () {
+            console.log(body);
+            const data = JSON.parse(body);
+            const oId = randomUUID();
+            database.AddOrder(data.service, data.name, data.phone, data.email, oId);
+
+            linkOk = baseUrl + "/confirm?id=" + oId;
+            linkNot = baseUrl + "/discard?id=" + oId;
+
+            sendMail(data.email, linkOk, linkNot);
+            res.end();
+        });
+    }
+);
+
+
+
+server.renders = [
+    {
+        divId: "headerImport",
+        model: reactModels.Header
+    },
+    {
+        divId: "footerImport",
+        model: reactModels.Footer
+    },
+    {
+        divId: "serviceList",
+        model: reactModels.ServiceSections
+    }
+];
+
+const aboutPlace = {
+    place: "городок",
+    phone: "8 800 555-35-35",
+    email: "somemail@mail.com"
 };
 
-const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
+server.renderPages.set("/mainPage/index.html", function (req, res) {
+    return {
+        page: path.basename(req.url),
+        about: aboutPlace
+    };
+});
+
+server.renderPages.set("/mainPage/service.html", function (req, res) {
+    return {
+        page: path.basename(req.url),
+        about: aboutPlace,
+        ServicesInfo: database.ServicesInfo
+    };
+});
 
 
 
 
-server.on('request', Response);
-server.listen(PORT, OnServerCreate);
 
 
-function FileResponse(res, file)
-{
-    var type = mimeList[path.extname(file).slice(1)] || 'text/plain';
-    var content = undefined;
 
-    if (type == 'text/html') {
-        try {
-            
-            content = fs.readFileSync(file, 'utf8');
-            res.setHeader('Content-Type', type);
-            res.end(pp.preprocess(content, { PLACE: 'samara ', PUBLIC_DIR: process.env.PUBLIC_DIR }));
-
-        } catch (err) {
-            console.log(err.message);
-            res.setHeader('Content-Type', 'text/plain');
-            res.statusCode = 404;
-            res.end('Not found');
-        }
-    } else {
-        var s = fs.createReadStream(file);
-
-        s.on('open', function () {
-
-            res.setHeader('Content-Type', type);
-            s.pipe(res);
-        });
-
-        s.on('error', function () {
-            res.setHeader('Content-Type', 'text/plain');
-            res.statusCode = 404;
-            res.end('Not found');
-        });
-    }
-
-    
-
-    
-
-    
-}
-
-function GetResponse(req, res)
-{
-	var reqpath = req.url.toString().split('?')[0];
-	var file = path.join(pubDir, reqpath.replace(/\/$/, '/index.html'));
-
-    if (file.indexOf(pubDir + path.sep) !== 0) {
-        res.statusCode = 403;
-        res.setHeader('Content-Type', 'text/plain');
-        return res.end('Forbidden');
-    }
-    
-    FileResponse(res, file);
-}
-
-function Response(req, res)
-{
-
-    if (req.method == 'GET') {
-        GetResponse(req, res);
-    }else
-    {
-    	res.statusCode = 501;
-        res.setHeader('Content-Type', 'text/plain');
-        return res.end('Method not implemented');
-    }
- 
-}
 
