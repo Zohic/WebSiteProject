@@ -6,16 +6,17 @@ const Server = require("./Server.js");
 const reactModels = require("./reactModels.jsx");
 
 const PORT = process.env.PORT || 3000;
+const BASEURL = process.env.BASE_URL || 'localhost:3000/';
 const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
 const hidDir = path.join(process.env.HIDDEN_DIR);
 const database = require('./database');
 
 const sendMail = require('./emailer');
-const { randomUUID } = require('crypto');
+const cryptoString = require('crypto-random-string');
 
 
 
-const baseUrl = "http://localhost:" + PORT;
+const baseUrl = BASEURL;
 const server = new Server(baseUrl, pubDir, hidDir);
 server.Listen(PORT);
 
@@ -110,7 +111,7 @@ server.responses.get('POST').set('/submit-order',
         req.on("end", function () {
             console.log(body);
             const data = JSON.parse(body);
-            const oId = randomUUID();
+            const oId = cryptoString(12);
             database.AddOrder(data.service, data.name, data.phone, data.email, oId);
 
             linkOk = baseUrl + "/confirm?id=" + oId;
@@ -157,7 +158,7 @@ server.responses.get('POST').set('/admin-login',
             console.log(body);
             const data = JSON.parse(body);
 
-            server.allowedSession.push(randomUUID());
+            server.allowedSession.push(cryptoString(16));
             const allwd = server.allowedSession[server.allowedSession.length - 1];
 
             if (data.login != adminInfo.login || data.password != adminInfo.password) {
