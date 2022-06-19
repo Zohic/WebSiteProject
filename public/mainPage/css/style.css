@@ -135,7 +135,7 @@ body {
 .custom_nav-container.navbar-expand-lg .navbar-nav .nav-item .nav-link {
   padding: 0;
   padding: 35px 15px 10px 15px;
-  color: #2c2b2b;
+  color: #ffe7bc;
   text-align: center;
   text-transform: uppercase;
 }
@@ -209,6 +209,7 @@ a:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -224,7 +225,7 @@ a:focus {
 
 .navbar-brand span {
   font-weight: bold;
-  color: #2c2b2b;
+  color: #ffe7bc;
   font-size: 20px;
 }
 
@@ -268,18 +269,21 @@ a:focus {
 .slider_section .detail-box h1 {
   text-transform: uppercase;
   font-size: 4rem;
-  color: #031652;
+  color: #ffe7bc;
   line-height: 60px;
   font-weight: 600;
 }
 
 .slider_section .detail-box h1 span {
-  color: #fc0909;
+  color: #cd351f;
 }
 
-.slider_section .detail-box p {
-  margin-top: 25px;
-}
+    .slider_section .detail-box p {
+        margin-top: 25px;
+        color: #ffe7bc;
+        font-size: 2rem;
+        text-shadow: 0px -4px 15px #000000;
+    }
 
 .slider_section .detail-box .btn-box {
   display: -webkit-box;
@@ -387,7 +391,7 @@ a:focus {
 }
 
 .about_section .img_container {
-  margin-right: -45px;
+  margin-right: 45px;
 }
 
 .about_section .img_container .img-box img {
@@ -492,6 +496,7 @@ a:focus {
     background-color: transparent;
     border-color: #fc0909;
     color: #fc0909;
+    cursor: pointer;
 }
 
 .service_select_container {
@@ -630,8 +635,13 @@ a:focus {
   border-bottom: 1px solid #ffffff;
 }
 
+.detail-box p {
+    color: #031652;
+}
+
 .client_section .box .detail-box p {
   margin-top: 20px;
+  color: #ffe7bc;
 }
 
 .client_section .carousel-control-prev,
@@ -908,10 +918,10 @@ a:focus {
     position: fixed;
     z-index: 60;
     width: 70%;
-    height: 80%;
+    height: auto;
     bottom: 10%;
     right: 15%;
-    border: 23px solid #f73131;
+    /*border: 23px solid #f73131;*/
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 6px;
@@ -926,7 +936,8 @@ a:focus {
     margin: 0;
     padding: 10px;
     background-color: rgba(190, 230, 255, 1);
-    border: 12px solid #1d2943;
+    border: 16px solid #f73131;
+    border-radius: 6px;
 }
 
     /* Full-width input fields */
@@ -936,6 +947,7 @@ a:focus {
         padding: 15px;
         margin: 5px 0 22px 0;
         border: none;
+        text-decoration: none;
         background: #1d2943;
     }
 
@@ -943,6 +955,7 @@ a:focus {
         .form-container input[type=text]:focus, .form-container input[type=password]:focus {
             background-color: #031652;
             outline: none;
+            text-decoration: none;
         }
 
         .form-container input[type=text]: {
@@ -952,8 +965,6 @@ a:focus {
         .form-container .btn {
             background-color: rgba(255, 130, 20, 1);
             color: white;
-            padding: 16px 20px;
-            border: none;
             cursor: pointer;
             width: 100%;
             margin-bottom: 10px;

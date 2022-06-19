@@ -35,20 +35,19 @@
     </div>
 
     <!-- service section -->
-    
+
     <section class="service_section layout_padding-top">
         <div class="container">
-            <div class="heading_container">
-                <h2>
-                    Наши услуги
-                </h2>
-            </div>
 
             <div id="service_sections">
 
                 <%for (let i = 0; i < ServicesInfo.ServiceSection.length; i++) { %>
                 <div class="service_section">
-                    <%=ServicesInfo.ServiceSection[i]%>
+                    <div class="heading_container">
+                        <h2>
+                            <%=ServicesInfo.ServiceSection[i]%>
+                        </h2>
+                    </div>
                     <div class="service_container">
                         <% for (let j = 0; j < ServicesInfo.ServiceType.length; j++) { %>
 
@@ -61,28 +60,31 @@
                             <div class="detail-box">
                                 <h6><%=ServicesInfo.ServiceType[j].service_name %></h6>
                                 <p><%=ServicesInfo.ServiceType[j].short_desc %></p>
-                                <a onclick="MakeOrder(<%=j%>)"><%=ServicesInfo.ServiceType[j].price %></a>
+                                <a onclick="MakeOrder(<%=ServicesInfo.ServiceType[j].variation_id%>)"><%=ServicesInfo.ServiceType[j].price %> руб</a>
                             </div>
                         </div>
                         <% } %>
                         <% } %>
                     </div>
-                    
 
-                    
+
+
                 </div>
                 <% } %>
             </div>
-                
-            
+
+
         </div>
 
 
-        
+
     </section>
 
     <div class="form-popup" id="myForm">
         <form id="orderForm" class="form-container">
+
+            <h1>Выбранный сервис:</h1>
+            <label id="selectedLabel"><b>Почта</b></label>
             <h1>Укажите данные заказчика</h1>
 
             <label for="email"><b>Почта</b></label>
@@ -100,10 +102,11 @@
         </form>
     </div>
 
-    <script type="text/javascript" src="js/service.js">
+    <script type="text/javascript" src="/scripts/ProAutoAPI.js"></script>
+    <script type="text/javascript" src="js/service.js"> </script>
 
-        
-    </script>
+
+
 
     <!-- end service section -->
     <!-- info section -->

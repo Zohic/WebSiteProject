@@ -18,7 +18,7 @@ const mimeList = {
 
 module.exports = class Server {
 
-    constructor(bUrl, pubDir) {
+    constructor(bUrl, pubDir, hidDir) {
         this.server = http.createServer();
 
         this.responses = new Map();
@@ -31,8 +31,10 @@ module.exports = class Server {
         this.renderPages = new Map();
 
         this.baseUrl = bUrl;
-
+        this.hiddenDir = hidDir;
         this.publicDir = pubDir;
+
+        this.allowedSession = [];
 
         this.server.on('request', this.Response.bind(this));
 
@@ -45,13 +47,37 @@ module.exports = class Server {
         }
     }
 
+    CheckAccess(req, debug=false) {
+        const cooks = req.headers.cookie;
+
+        if (debug) {
+            console.log("checking access: ");
+            console.log(req.headers);
+        }
+            
+
+        if (!cooks) {
+            return false;
+        } else {
+            const jar = cooks.split("; ");
+            let found = false;
+
+            for (let i = 0; i < jar.length; i++) {
+                const cookie = jar[i].split('=');
+                if (cookie[0] == "APSSID") {
+                    if (this.allowedSession.indexOf(cookie[1]) != -1)
+                        found = true;
+                }
+            }
+
+            return found;
+        }
+    }
 
 
     Response(req, res) {
-
         const url = new URL(path.join(this.baseUrl, req.url));
-        //console.log(req.method+" request "+req.url);
-
+        
         if (path.extname(url.pathname) == '') {
             const corResp = this.responses.get(req.method).get(url.pathname);
 
@@ -63,8 +89,37 @@ module.exports = class Server {
                 return res.end("Can't help you");
             }
         } else {
-            this.PublicFileResponse(req, res, url.pathname);
+            let allowFile = true;
+
+            if (url.pathname.indexOf(this.hiddenDir) == 1)
+            {
+                allowFile = this.CheckAccess(req);
+            }
+
+            if (allowFile)
+                this.PublicFileResponse(req, res, url.pathname);
+            else {
+                
+                
+                if (url.pathname.split('/')[1] == 'adminOffice') {
+                    console.log("bruh");
+                    
+                    res.writeHead(302, { 'Location': '/admin' });
+                    res.end();
+                } else {
+                    res.statusCode = 403;
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.end('Forbidden');
+                }
+                
+                
+            }
+
         }
+    }
+
+    HiddenFileResponse(res, hidPath) {
+        this.FileResponse(res, path.join(this.publicDir, this.hiddenDir, hidPath));
     }
 
     PublicFileResponse(req, res, publicPath) {
@@ -104,6 +159,7 @@ module.exports = class Server {
         s.on('error', function () {
             res.setHeader('Content-Type', 'text/plain');
             res.statusCode = 404;
+            console.log("can't find: " + file);
             res.end('Not found');
         });
     }

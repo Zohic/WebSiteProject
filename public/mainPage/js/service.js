@@ -1,5 +1,6 @@
 const form = document.getElementById("myForm");
 const submitForm = document.getElementById("orderForm");
+const selectedServiceLabel = document.getElementById("selectedLabel");
 submitForm.addEventListener('submit', SubmitOrder);
 
 var selectedService = 0;
@@ -24,25 +25,21 @@ function SubmitOrder(e) {
 
 }
 
-services = [];
-servConts = document.getElementsByClassName("service_container");
-for (let i = 0; i < servConts.length; i++) {
-    const img = servConts[i].getElementsByTagName("img").src
-}
 
+servicesInfo = {};
+
+GetServicesList().then((res) => {
+    servicesInfo = res
+}).catch(err => console.log(err));
 
 
 function MakeOrder(serviceId) {
     selectedService = serviceId;
     form.style.display = "block";
-
+    selectedServiceLabel.innerHTML = servicesInfo.ServiceType[serviceId - 1].service_name;
 }
 
 function closeForm() {
     form.style.display = "none";
 }
 
-fetch("/get-services", {
-    method: "GET",
-    headers: {}
-}).then(res => res.json()).then(res => console.log(res));

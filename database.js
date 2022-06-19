@@ -34,12 +34,28 @@ function VerifyOrder(orderId) {
     ).catch(err => console.log("verifying error: " + err));
 }
 
+function UpdateStatus(updated) {
+    Order.update(
+        {
+            order_status: updated.order_status
+        },
+        {
+            where: { order_id: updated.order_id }
+        }
+    ).catch(err => console.log("updating error: " + err));
+}
+
 function DisсardOrder(orderId) {
     Order.destroy(
         {
             where: { order_id: orderId }
         }
     ).catch(err => console.log("discarding error: " + err));
+}
+
+function GetOrdersList() {
+    console.log("getting orders...");
+    return Order.findAll();
 }
 
 class Order extends Model { }
@@ -117,8 +133,13 @@ Service.init({
 
 
 const ServiceSection = [
-    "Диагностика",
-    "Трансмиссия"
+    "Диагностика",//0
+    "Трансмиссия",//1
+    "Подвеска",//2
+    "Тормозная система",//3
+    "Двигатель",//4
+    "Электроника",//5
+    "Кузовной ремонт"//6
 ];
 const ServiceStatus = [
     "не подтвержден",
@@ -145,10 +166,13 @@ sequelize.sync({ alter: false }).then(() => {
 }).catch(err => { console.log(err) });
 
 
+
 module.exports = {
     AddOrder: AddOrder,
     VerifyOrder: VerifyOrder,
     DisсardOrder: DisсardOrder,
+    GetOrdersList: GetOrdersList,
+    UpdateStatus: UpdateStatus,
     ServicesInfo: {
         ServiceSection: ServiceSection,
         ServiceStatus: ServiceStatus,
