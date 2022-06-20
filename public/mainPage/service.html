@@ -82,27 +82,30 @@
 
     <div class="form-popup" id="myForm">
         <form id="orderForm" class="form-container">
-            
+
             <div>
                 <h1>Выбранный сервис:</h1>
-                <label id="selectedLabel" ><b>Не удалось загрузить</b></label>
-                <img id="selectedImage" style="width:13.3rem;"/>
+                <label id="selectedLabel"><b>Не удалось загрузить</b></label>
+                <img id="selectedImage" style="width:13.3rem;" />
             </div>
             <h1>Укажите данные заказчика</h1>
+            <div>
+                <label for="email"><b>Почта</b></label>
+                <input type="text" placeholder="Введите почту" name="email" required>
+            </div>
+            <div>
+                <label for="phone"><b>Номер телефона</b></label>
+                <input type="text" placeholder="Введите номер телефона" name="phone" required>
+            </div>
+            <div>
+                <label for="name"><b>Имя</b></label>
+                <input type="text" placeholder="Как к вам обращаться" name="name" required>
+            </div>
 
-            <label for="email"><b>Почта</b></label>
-            <input type="text" placeholder="Введите почту" name="email" required>
 
-            <label for="phone"><b>Номер телефона</b></label>
-            <input type="text" placeholder="Введите номер телефона" name="phone" required>
-
-            <label for="name"><b>Имя</b></label>
-            <input type="text" placeholder="Как к вам обращаться" name="name" required>
-
-
-            <button type="submit" class="btn">Отправить</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Отмена</button>
-        </form>
+                    <button type="submit" class="btn">Отправить</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Отмена</button>
+</form>
     </div>
 
     <script type="text/javascript" src="/scripts/ProAutoAPI.js"></script>
