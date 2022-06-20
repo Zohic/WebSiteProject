@@ -41,7 +41,7 @@ function MakeOrder(serviceId) {
     selectedService = serviceId;
     form.style.display = "block";
     selectedServiceLabel.innerHTML = servicesInfo.ServiceType[serviceId - 1].service_name;
-    selectedServiceImage.setAttribute("src", document.location.origin + "/mainPage/images/services/" + servicesInfo.ServiceType[serviceId - 1].ascii_name);
+    selectedServiceImage.setAttribute("src", document.location.origin + "/mainPage/images/services/" + servicesInfo.ServiceType[serviceId - 1].ascii_name+".jpg");
 }
 
 function closeForm() {
