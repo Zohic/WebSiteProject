@@ -2,8 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
-const reactDOM = require('react-dom/server');
-const reactDO = require('react-dom/client');
 
 const mimeList = {
     html: 'text/html',

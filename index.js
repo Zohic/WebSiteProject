@@ -3,8 +3,6 @@ const path = require('path');
 
 const Server = require("./Server.js");
 
-const reactModels = require("./reactModels.jsx");
-
 const PORT = process.env.PORT || 3000;
 const pubUrl = process.env.PUBLIC_URL || 'localhost:3000';
 const baseUrl = process.env.BASE_URL || 'localhost:3000';
