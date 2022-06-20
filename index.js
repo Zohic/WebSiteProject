@@ -6,7 +6,9 @@ const Server = require("./Server.js");
 const reactModels = require("./reactModels.jsx");
 
 const PORT = process.env.PORT || 3000;
-const BASEURL = process.env.BASE_URL || 'localhost:3000/';
+const pubUrl = process.env.PUBLIC_URL || 'localhost:3000';
+const baseUrl = process.env.BASE_URL || 'localhost:3000';
+
 const pubDir = path.join(__dirname, process.env.PUBLIC_DIR);
 const hidDir = path.join(process.env.HIDDEN_DIR);
 const database = require('./database');
@@ -16,7 +18,6 @@ const cryptoString = require('crypto-random-string');
 
 
 
-const baseUrl = BASEURL;
 const server = new Server(baseUrl, pubDir, hidDir);
 server.Listen(PORT);
 
@@ -52,7 +53,7 @@ server.responses.get('GET').set('/add',
 server.responses.get('GET').set('/confirm',
     function (req, res) {
         console.log("confirmed");
-        const url = new URL(path.join(baseUrl, req.url));
+        const url = new URL(path.join(pubUrl, req.url));
  
         database.VerifyOrder(url.searchParams.get("id"));
 
@@ -64,7 +65,7 @@ server.responses.get('GET').set('/confirm',
 server.responses.get('GET').set('/discard',
     function (req, res) {
         console.log("discarded");
-        const url = new URL(path.join(baseUrl, req.url));
+        const url = new URL(path.join(pubUrl, req.url));
 
         database.DisсardOrder(url.searchParams.get("id"));
 
@@ -114,8 +115,10 @@ server.responses.get('POST').set('/submit-order',
             const oId = cryptoString(12);
             database.AddOrder(data.service, data.name, data.phone, data.email, oId);
 
-            linkOk = baseUrl + "/confirm?id=" + oId;
-            linkNot = baseUrl + "/discard?id=" + oId;
+            linkOk = pubUrl + "/confirm?id=" + oId;
+            linkNot = pubUrl + "/discard?id=" + oId;
+
+            data.id = oId;
 
             sendMail(data, linkOk, linkNot);
             res.end();

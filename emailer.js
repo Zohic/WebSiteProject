@@ -18,7 +18,8 @@ function sendMail(data, linkOk, linkNot) {
         to: data.email,
         subject: "Подтвердите заказ",
         text: "с вас пять тыщ",
-        html: "<h2>Здравствуйте, "+ data.name +"!</h2><br><h3>пожалуйста, подтвердите или отмените заказ</h3><br><a href='" + linkOk + "'>Подтвердить заказ</a><br><a href='" + linkNot + "'>Отменить заказ</a>"
+        html: "<h2>Здравствуйте, " + data.name + "!</h2><br>" + "<h3>код вашего заказа: " + data.id +"</h3>"+
+            "<h3>пожалуйста, подтвердите или отмените заказ</h3><br><a href='" + linkOk + "'>Подтвердить заказ</a><br><a href='" + linkNot + "'>Отменить заказ</a>"
         
     }, function (err, info) {
             if (err) return console.log(err);

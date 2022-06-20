@@ -21,7 +21,10 @@ function SubmitOrder(e) {
         method: "POST",
         headers: { "Content-Type": "text/plain" },
         body: bodyToSend
-    }).then(res => res.text()).then(res => console.log(res));
+    }).then(res => res.text()).then(res => {
+        closeForm();
+        console.log(res)
+    });
 
 }
 
