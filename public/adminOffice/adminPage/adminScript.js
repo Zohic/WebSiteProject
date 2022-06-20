@@ -23,12 +23,12 @@ GetServicesList().then((info) => {
     FillFreshOrders(orders);
 }).catch(err => console.log(err));
 
-function OrderLine(id, name, status, phone, email, orderId) {
+function OrderLine(id, name, status, phone, email, orderId, clName) {
     return orderLine =
         "<div class='top-info'><p class='order-name cant-select'>" + id + ". " + name + "</p>" +
         "<p class='order-status cant-select'> статус: " + statusList[status] + "</p></div>" +
         "<div class='bot-info'><p>Номер клиента: " + phone + ", почта: " + email +
-        "</p><p> Код заказа: " + orderId + "</p> <div/>";
+    "</p><p> Код заказа: " + orderId + "</p> <p> Имя клиента: " + clName + "<div/>";
 }
 
 function FillOrders(list) {
@@ -46,7 +46,8 @@ function FillOrders(list) {
             list[i].order_status,
             FormatPhoneNumber(list[i].client_phone_number),
             list[i].client_email,
-            list[i].order_id);
+            list[i].order_id,
+            list[i].client_name);
 
         orderLine.firstChild.firstChild.onclick = ExpandOrder.bind(orderLine);
         const statusEl = orderLine.firstChild.children[1];

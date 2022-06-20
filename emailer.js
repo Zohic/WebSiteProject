@@ -7,10 +7,10 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: "forsteamz@mail.ru", // generated ethereal user
         pass: "RCi1aTun4fD7LXDVH6q1" // generated ethereal password
-        }
-    }, {
-        from: "Авто сервис <forsteamz@mail.ru>"
-       }
+    }
+}, {
+    from: "Авто сервис <forsteamz@mail.ru>"
+}
 );
 
 function sendMail(data, linkOk, linkNot) {
