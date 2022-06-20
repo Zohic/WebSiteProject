@@ -18,7 +18,7 @@ function AdminLogin(e) {
         body: bodyToSend
     }).catch(err => console.log(err)).then((res) => { if (res.status == 200) { return res.text() } }).then((res) => {
         const respBody = JSON.parse(res);
-        setCookie("APSSID", respBody.sessionID, { secure: true, 'max-age': 3600 });
+        setCookie("APSSID", respBody.sessionID, {'max-age': 3600 });//secure:true - doesnt work without SSL, even declration of secure corrupts cookie
         document.location.replace(respBody.href);
     });
 }

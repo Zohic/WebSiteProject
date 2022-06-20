@@ -121,7 +121,6 @@ function SetStatus(s) {
 
 document.addEventListener('click', function (e) {
 
-    console.log(e.path);
     let found = e.path.findIndex((el) => {
         
         let found = false;
@@ -134,6 +133,5 @@ document.addEventListener('click', function (e) {
 
     if (found==-1)
         statusSelectDiv.style.setProperty("display", "none");
-
 });
 

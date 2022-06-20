@@ -147,10 +147,7 @@ server.responses.get('POST').set('/push-order',
     }
 );
 
-
 adminInfo = { login: "andrew", password: "mazada" };
-
-
 server.responses.get('POST').set('/admin-login',
     function (req, res) {
         let body = "";

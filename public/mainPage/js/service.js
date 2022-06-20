@@ -1,6 +1,7 @@
 const form = document.getElementById("myForm");
 const submitForm = document.getElementById("orderForm");
 const selectedServiceLabel = document.getElementById("selectedLabel");
+const selectedServiceImage = document.getElementById("selectedImage");
 submitForm.addEventListener('submit', SubmitOrder);
 
 var selectedService = 0;
@@ -40,6 +41,7 @@ function MakeOrder(serviceId) {
     selectedService = serviceId;
     form.style.display = "block";
     selectedServiceLabel.innerHTML = servicesInfo.ServiceType[serviceId - 1].service_name;
+    selectedServiceImage.setAttribute("src", document.location.origin + "/mainPage/images/services/" + servicesInfo.ServiceType[serviceId - 1].ascii_name);
 }
 
 function closeForm() {
