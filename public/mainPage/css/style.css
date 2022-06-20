@@ -920,6 +920,7 @@ a:focus {
     width: 70%;
     height: auto;
     bottom: 10%;
+    top: 5%;
     right: 15%;
     /*border: 23px solid #f73131;*/
     -moz-border-radius: 6px;
@@ -939,14 +940,20 @@ a:focus {
     border: 16px solid #f73131;
     border-radius: 6px;
 }
-
+    .form-container label {
+        display: inline-block;
+        margin-bottom: 2rem;
+        font-size: 1.5vw;
+    }
     /* Full-width input fields */
     .form-container input[type=text], .form-container input[type=password] {
-        width: 100%;
+        width: 60%;
         color: wheat;
+        right: 5%;
         padding: 15px;
         margin: 5px 0 22px 0;
         border: none;
+        position: absolute;
         text-decoration: none;
         background: #1d2943;
     }
@@ -962,14 +969,17 @@ a:focus {
             background-color: rgba(0, 0, 0, 1);
         }
         /* Set a style for the submit/login button */
-        .form-container .btn {
-            background-color: rgba(255, 130, 20, 1);
-            color: white;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 10px;
-            opacity: 0.7;
-        }
+    .form-container .btn {
+        background-color: rgba(255, 130, 20, 1);
+        color: white;
+        cursor: pointer;
+        width: 95%;
+        right: 20%;
+        margin-bottom: 10px;
+        position: initial;
+        margin-top: 2em;
+        opacity: 0.7;
+    }
 
     /* Add a red background color to the cancel button */
     .form-container .cancel {
