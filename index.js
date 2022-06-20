@@ -34,6 +34,14 @@ server.responses.get('GET').set('/admin',
     }
 );
 
+
+server.responses.get('GET').set('/adminOffice',
+    function (req, res) {
+        res.writeHead(302, { 'Location': '/adminOffice/adminPage/index.html' });
+        res.end();
+    }
+);
+
 server.responses.get('GET').set('/mainPage',
     function (req, res) {
         res.writeHead(302, { 'Location': '/mainPage/index.html' });
